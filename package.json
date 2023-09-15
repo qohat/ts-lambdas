@@ -1,8 +1,8 @@
 {
-  "name": "serverless-typescript-demo",
+  "name": "answering-lambdas",
   "version": "0.1.0",
   "bin": {
-    "serverless-typescript-demo": "bin/serverless-typescript-demo.js"
+    "answering-lambdas": "bin/answering-lambdas.js"
   },
   "scripts": {
     "build": "tsc",
@@ -13,9 +13,9 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.86",
     "@types/jest": "^26.0.10",
-    "@types/node": "^10.17.27",
-    "aws-cdk-lib": "^2.80.0",
-    "constructs": "^10.0.0",
+    "@types/node": "20.2.5",
+    "aws-cdk-lib": "2.81.0",
+    "constructs": "^10.2.37",
     "esbuild": "^0.14.49",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
@@ -28,10 +28,11 @@
     "@aws-lambda-powertools/tracer": "^1.0.1",
     "@aws-sdk/client-dynamodb": "^3.363.0",
     "@aws-sdk/lib-dynamodb": "^3.44.0",
+    "@aws-sdk/client-sqs": "^3.413.0",
     "@middy/core": "^3.1.0",
-    "aws-cdk-lib": "^2.80.0",
+    "aws-cdk-lib": "2.81.0",
+    "constructs": "^10.2.37",
     "aws-xray-sdk-core": "^3.3.4",
-    "constructs": "^10.0.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.21"
   }
 }

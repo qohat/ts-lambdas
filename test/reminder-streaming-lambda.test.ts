@@ -1,13 +1,13 @@
 // import { Template } from '@aws-cdk/assertions';
 // import * as cdk from '@aws-cdk/core';
-// import * as ServerlessTypescriptDemo from '../lib/serverless-typescript-demo-stack';
+// import * as ReminderStreamingLambda from '../lib/answering-lambdas-stack';
 
 // example test. To run these tests, uncomment this file along with the
-// example resource in lib/serverless-typescript-demo-stack.ts
+// example resource in lib/answering-lambdas-stack.ts
 test('SQS Queue Created', () => {
 //   const app = new cdk.App();
 //     // WHEN
-//   const stack = new ServerlessTypescriptDemo.ServerlessTypescriptDemoStack(app, 'MyTestStack');
+//   const stack = new ReminderStreamingLambda.AnsweringLambdasStack(app, 'MyTestStack');
 //     // THEN
 //   const template = Template.fromStack(stack);
 

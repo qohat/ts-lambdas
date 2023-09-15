@@ -61,7 +61,7 @@ This query returns the last 20 logs of the Lambda function that returns the prod
 
 ```
 fields resource_path, message, timestamp
-| filter service = 'serverless-typescript-demo'
+| filter service = 'answering-lambdas'
 | filter function_name LIKE /GetProducts/
 | sort @timestamp desc
 | limit 20
@@ -71,7 +71,7 @@ This query returns the last 20 logs that contain an error or a warning.
 
 ```
 fields resource_path, message, timestamp
-| filter service = 'serverless-typescript-demo'
+| filter service = 'answering-lambdas'
 | filter level = 'WARN' or level = 'ERROR'
 | sort @timestamp desc
 | limit 20
@@ -82,7 +82,7 @@ This query returns the last 20 logs related to a specific product ID.
 ```
 "63f74370-1d0b-49f8-be86-586efdef13be"
 | fields resource_path, message, timestamp
-| filter service = 'serverless-typescript-demo'
+| filter service = 'answering-lambdas'
 | sort @timestamp desc
 | limit 20
 ```
@@ -91,7 +91,7 @@ This query returns the last 20 logs of invocations that experienced a cold start
 
 ```
 fields resource_path, message, timestamp
-| filter service = 'serverless-typescript-demo'
+| filter service = 'answering-lambdas'
 | filter cold_start = 1
 | sort @timestamp desc
 | limit 20
