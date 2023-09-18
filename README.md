@@ -108,7 +108,6 @@ filter @type="REPORT"
   <img src="imgs/test.png" alt="Sample test result"/>
 </p>
 
-
 ## 👀 With other languages
 
 You can find implementations of this project in other languages here:
