@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "app": "npx ts-node --prefer-ts-exts bin/answering-lambdas.ts",
-=======
-  "app": "npx ts-node --prefer-ts-exts bin/serverless-typescript-demo.ts",
->>>>>>> adb801b (initial)
   "watch": {
     "include": [
       "**"

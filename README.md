@@ -29,10 +29,11 @@ storage logic.
 Deploy the demo to your AWS account using [AWS CDK](https://aws.amazon.com/cdk/).
 
 ```bash
+npm install
 cdk deploy
 ```
 
-The command `cdk deploy` will first build the products maven project using a docker build image with all the required GraalVM tools.
+The command `cdk deploy` will first build the products TypeScript project using a docker build image esbuild.
 Then it will use AWS CloudFormation to deploy the resources to your account.
 
 CDK will create an output of the API Gateway endpoint URL for future use in our load tests.
@@ -43,23 +44,69 @@ CDK will create an output of the API Gateway endpoint URL for future use in our 
 with the following command.
 
 ```bash
-cd load-test
-./run-load-test.sh
+./load-test/run-load-test.sh
 ```
 
 This is a demanding load test, to change the rate alter the `arrivalRate` value in `load-test.yml`.
 
-### CloudWatch Logs Insights
+## Monitoring
+
+This app leverages the [AWS Lambda Powertools for TypeScript](https://awslabs.github.io/aws-lambda-powertools-typescript) to emit monitoring data. 
+
+### Logs
 
 Using this CloudWatch Logs Insights query you can analyse the latency of the requests made to the Lambda functions.
 
-The query separates cold starts from other requests and then gives you p50, p90 and p99 percentiles.
+This query returns the last 20 logs of the Lambda function that returns the products list.
 
+```
+fields resource_path, message, timestamp
+| filter service = 'answering-lambdas'
+| filter function_name LIKE /GetProducts/
+| sort @timestamp desc
+| limit 20
+```
+
+This query returns the last 20 logs that contain an error or a warning.
+
+```
+fields resource_path, message, timestamp
+| filter service = 'answering-lambdas'
+| filter level = 'WARN' or level = 'ERROR'
+| sort @timestamp desc
+| limit 20
+```
+
+This query returns the last 20 logs related to a specific product ID.
+
+```
+"63f74370-1d0b-49f8-be86-586efdef13be"
+| fields resource_path, message, timestamp
+| filter service = 'answering-lambdas'
+| sort @timestamp desc
+| limit 20
+```
+
+This query returns the last 20 logs of invocations that experienced a cold start.
+
+```
+fields resource_path, message, timestamp
+| filter service = 'answering-lambdas'
+| filter cold_start = 1
+| sort @timestamp desc
+| limit 20
+```
+
+This query separates cold starts from other requests and then gives you p50, p90 and p99 percentiles.
 ```
 filter @type="REPORT"
 | fields greatest(@initDuration, 0) + @duration as duration, ispresent(@initDuration) as coldStart
 | stats count(*) as count, pct(duration, 50) as p50, pct(duration, 90) as p90, pct(duration, 99) as p99, max(duration) as max by coldStart
 ```
+<p align="center">
+  <img src="imgs/test.png" alt="Sample test result"/>
+</p>
+
 
 ## 👀 With other languages
 
@@ -67,6 +114,9 @@ You can find implementations of this project in other languages here:
 
 * [🦀  Rust](https://github.com/aws-samples/serverless-rust-demo)
 * [☕ Java with GraalVM](https://github.com/aws-samples/serverless-graalvm-demo)
+* [🐿️ Go](https://github.com/aws-samples/serverless-go-demo)
+* [🤖 Kotlin](https://github.com/aws-samples/serverless-kotlin-demo)
+* [🥅 .NET](https://github.com/aws-samples/serverless-dotnet-demo)
 
 ## Security
 
