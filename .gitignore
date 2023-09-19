@@ -1,14 +1,9 @@
 *.js
 !jest.config.js
-<<<<<<< HEAD
 !generator.js
 *.d.ts
 node_modules
 .idea
-=======
-*.d.ts
-node_modules
->>>>>>> adb801b (initial)
 
 # CDK asset staging directory
 .cdk.staging
