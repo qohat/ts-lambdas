@@ -19,15 +19,23 @@ export class AnsweringLambdasStack extends Stack {
       stackName: 'notification-event-queue'
     })
 
-    const remindersLambdaStack = new LambdaStack(this, 'answering-lambdas', {
+    const remindersLambdaStack = new LambdaStack(this, 'reminder-answering-lambda', {
       dynamoDbTableName: dynamoDbStack.tableName,
       sqsQueueUrl: queueStack.queueUrl,
       lambdaName: "ReminderStreamingLambda",
       lambdaPath: "reminder-streaming"
     })
 
+    const emailLambdaStack = new LambdaStack(this, 'email-notification-answering-lambda', {
+      dynamoDbTableName: dynamoDbStack.tableName,
+      sqsQueueUrl: queueStack.queueUrl,
+      lambdaName: "EmailNotificationLambda",
+      lambdaPath: "email-notification"
+    })
+
     dynamoDbStack.table.grantStreamRead(remindersLambdaStack.lambda);
-    queueStack.queue.grantSendMessages(remindersLambdaStack.lambda)
+    queueStack.queue.grantSendMessages(remindersLambdaStack.lambda);
+    queueStack.queue.grantConsumeMessages(emailLambdaStack.lambda);
 
 
     remindersLambdaStack.lambda.addEventSourceMapping('RemindersDynamoEventSource', {
