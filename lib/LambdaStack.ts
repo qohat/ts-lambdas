@@ -1,4 +1,4 @@
-import { Duration, Stack, StackProps, aws_logs } from "aws-cdk-lib";
+import { CfnOutput, Duration, Stack, StackProps, aws_logs } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import { aws_lambda, aws_lambda_nodejs } from "aws-cdk-lib";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
@@ -18,7 +18,7 @@ export class LambdaStack extends Stack {
 
         const envVariables = {
             AWS_ACCOUNT_ID: Stack.of(this).account,
-            POWERTOOLS_SERVICE_NAME: `${props.lambdaName}-answering-lambdas`,
+            POWERTOOLS_SERVICE_NAME:  [props.lambdaName,'Lambdas'].join('-'),
             POWERTOOLS_LOGGER_LOG_LEVEL: 'WARN',
             POWERTOOLS_LOGGER_SAMPLE_RATE: '0.01',
             POWERTOOLS_LOGGER_LOG_EVENT: 'true',
@@ -53,5 +53,12 @@ export class LambdaStack extends Stack {
                 ...functionSettings
             }
         );
+
+        // Exports Stack
+        new CfnOutput(this, [props.lambdaName,'ARN'].join('-'), {
+            value: this.lambda.functionArn,
+            description: ['Export', props.lambdaName,'ARN'].join('-'),
+            exportName: [props.lambdaName,'ARN'].join('-'),
+        })
     }
 }

@@ -32,4 +32,5 @@ development:
 	yarn install
 	yarn env:dev
 	yarn cdk synth
+    yarn cdk bootstrap
 	yarn cdk deploy "dev-Answering*" --require-approval never 

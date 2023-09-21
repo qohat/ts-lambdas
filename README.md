@@ -1,7 +1,5 @@
 ## Serverless Typescript Demo
 
-
-
 <p align="center">
   <img src="imgs/diagram.png" alt="Architecture diagram"/>
 </p>
@@ -14,8 +12,15 @@ functions and an [Amazon DynamoDB](https://aws.amazon.com/dynamodb/) table for s
 
 - [AWS CLI](https://aws.amazon.com/cli/)
 - [AWS CDK](https://aws.amazon.com/cdk/)
-- [Node.js 14](https://nodejs.org/)
+- [Node.js 20](https://nodejs.org/)
 - [Artillery](https://www.artillery.io/) for load-testing the application
+
+## Tools:
+
+- AWS CDK: 2.96.2  
+- Node >= 20.6.1
+- TypeScript: 5.2.2
+- Dotenv: 16.3.1
 
 ## Software
 
@@ -28,9 +33,26 @@ storage logic.
 
 Deploy the demo to your AWS account using [AWS CDK](https://aws.amazon.com/cdk/).
 
+-  Install node on your equipment or user MakeFile to use docker image node and execute the next commands
+``` make docker_bash ```
+
+- wait until that download node docker images and start docker terminal
+
+- Add the Environment Variables to your console
 ```bash
-npm install
-cdk deploy
+export AWS_DEFAULT_REGION=us-east-1
+export AWS_ACCESS_KEY_ID=xxxx
+export AWS_SECRET_ACCESS_KEY=xxxxxx
+export ENVIRONMENT_NAME=dev
+```
+- Execute the next command to deploy and test  
+```bash
+cd bin
+yarn install
+yarn env:dev
+yarn cdk synth
+yarn cdk bootstrap
+yarn cdk deploy "dev-Answering*" --require-approval never 
 ```
 
 The command `cdk deploy` will first build the products TypeScript project using a docker build image esbuild.
