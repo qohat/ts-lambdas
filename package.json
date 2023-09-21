@@ -5,6 +5,9 @@
     "answering-lambdas": "bin/answering-lambdas.js"
   },
   "scripts": {
+    "env:dev": "cp ./environments/.env.development .env",
+    "env:stg": "cp ./environments/.env.staging .env",
+    "env:prod": "cp ./environments/.env.production .env",
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
@@ -20,7 +23,8 @@
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
     "ts-node": "^9.0.0",
-    "typescript": "~3.9.7"
+    "typescript": "~3.9.7",
+    "dotenv": "~16.3.1"
   },
   "dependencies": {
     "@aws-lambda-powertools/logger": "^1.0.1",
