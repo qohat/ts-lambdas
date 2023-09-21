@@ -18,6 +18,7 @@ export class LambdaStack extends Stack {
 
         const envVariables = {
             AWS_ACCOUNT_ID: Stack.of(this).account,
+            AWS_REGION: Stack.of(this).region,
             POWERTOOLS_SERVICE_NAME: `${props.lambdaName}-answering-lambdas`,
             POWERTOOLS_LOGGER_LOG_LEVEL: 'WARN',
             POWERTOOLS_LOGGER_SAMPLE_RATE: '0.01',

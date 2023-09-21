@@ -2,15 +2,43 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 import "source-map-support/register";
-import * as cdk from "aws-cdk-lib";
-import * as dotenv from 'dotenv';                             
 import { AnsweringLambdasStack } from '../lib/AnsweringLambdasStack';
+import { App, Stage, StageProps } from "aws-cdk-lib";
+import { Construct } from "constructs";
+import { TargetRegions } from "../config/environments";
 
+const app = new App();
 
-dotenv.config()
-const app = new cdk.App();
-const env = { account: process.env.CDK_DEFAULT_ACCOUNT || '', region: process.env.CDK_DEFAULT_REGION || ''};
-const environmentName = process.env.ENVIRONMENT_NAME || "dev";
-const projectName = process.env.PROJECT_NAME || "answering";
+interface DeploymentStageProps extends StageProps {
+  stage: string
+  dnsSuffix?: string
+}
 
-new AnsweringLambdasStack(app, [environmentName, projectName, 'LambdasStack'].join('-'), { env, environmentName, projectName });
+interface EnvironmentStageProps extends StageProps {
+  stage: string
+}
+
+class EnvironmentStage extends Stage {
+  constructor(scope: Construct, id: string, props: EnvironmentStageProps) {
+      super(scope, id, props)
+    new DeploymentStage(this, 'app', {
+      env: {account: Stage.of(this)?.account, region: props.env?.region},
+      stage: props.stage
+    })
+  }
+}
+
+class DeploymentStage extends Stage {
+  constructor(scope: Construct, id: string, props: DeploymentStageProps) {
+    super(scope, id, props)
+    new AnsweringLambdasStack(this, 'answering-lambdas-stacks', {})
+  }
+}
+
+TargetRegions.forEach(
+    region =>
+      new EnvironmentStage(app, `dev-${region}`, {
+        env: { region },
+        stage: 'dev'
+      })
+  )
