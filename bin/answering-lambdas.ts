@@ -1,6 +1,13 @@
 #!/usr/bin/env node
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: MIT-0
+/**
+ * This source code is the confidential, proprietary information of
+ * Answering, you may not disclose such information,
+ * and may only use it in accordance with the terms of the license
+ * agreement you entered into with Answering.
+ *
+ * Answering 2023.
+ * All Rights Reserved.
+ */
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
 import * as dotenv from 'dotenv';                             
@@ -9,7 +16,7 @@ import { DynamoStack } from "../lib/DynamoStack";
 import { SqsStack } from "../lib/SqsStack";
 import { LambdaStack } from "../lib/LambdaStack";
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-import { getSystemErrorMap } from "util";
+
 
 dotenv.config()
 const app = new cdk.App();
