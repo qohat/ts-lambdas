@@ -17,12 +17,11 @@ import { SqsStack } from "../lib/SqsStack";
 import { LambdaStack } from "../lib/LambdaStack";
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 
-const app = new App();
-
-interface DeploymentStageProps extends StageProps {
-  stage: string
-  dnsSuffix?: string
-}
+dotenv.config()
+const app = new cdk.App();
+const env = { account: process.env.CDK_DEFAULT_ACCOUNT || '', region: process.env.CDK_DEFAULT_REGION || ''};
+const environmentName = process.env.ENVIRONMENT_NAME || "dev";
+const projectName = process.env.PROJECT_NAME || "answering";
 
 const dynamoDbRemindersStack = new DynamoStack(app, [environmentName, projectName,'reminders-dinamoDB'].join('-'), { 
   env, 
