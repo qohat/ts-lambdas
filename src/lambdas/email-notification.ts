@@ -7,7 +7,7 @@ import { logger, metrics, tracer } from '../powertools/utilities';
 
 const ses = new SES();
 
-const handler = async (event: SQSEvent) => {
+export const handler = async (event: SQSEvent) => {
   try {
     for (const record of event.Records) {
       const message = JSON.parse(record.body) as NotificationEvent;
@@ -49,8 +49,8 @@ async function sendEmail(message: NotificationEvent) {
   await ses.sendEmail(params);
 }
 
-const lambdaHandler = middy(handler)
+/*const lambdaHandler = middy(handler)
   .use(captureLambdaHandler(tracer))
   .use(logMetrics(metrics, { captureColdStartMetric: true }));
 
-export { lambdaHandler };
+export { lambdaHandler };*/

@@ -7,7 +7,7 @@ import { SQS } from '@aws-sdk/client-sqs';
 
 const sqs = new SQS();
 
-const handler: DynamoDBStreamHandler = async (event: DynamoDBStreamEvent) => {
+export const handler: DynamoDBStreamHandler = async (event: DynamoDBStreamEvent) => {
   for (const record of event.Records) {
     if (record.eventName === 'REMOVE' && record.dynamodb?.OldImage?.ttl.N) {
       const userId = record.dynamodb?.OldImage?.UserId.S;
@@ -36,8 +36,8 @@ const handler: DynamoDBStreamHandler = async (event: DynamoDBStreamEvent) => {
   }
 };
 
-const lambdaHandler = middy(handler)
+/*const lambdaHandler = middy(handler)
   .use(captureLambdaHandler(tracer))
   .use(logMetrics(metrics, { captureColdStartMetric: true }));
 
-export { lambdaHandler };
+export { lambdaHandler };*/
